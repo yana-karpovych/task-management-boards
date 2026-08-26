@@ -12,3 +12,21 @@ model Board {
   name      String
   createdAt DateTime @default(now())
 }
+
+enum Column {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model Card {
+  id          String   @id
+  boardId     String
+  title       String
+  description String
+  column      Column
+  position    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([boardId, column, position])
+}
