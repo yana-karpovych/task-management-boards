@@ -1,0 +1,19 @@
+.cursor/
+docs/
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+# build/
+coverage/
+*.tsbuildinfo
+logs/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+# backend/prisma/*.db
+# backend/prisma/*.db-journal
