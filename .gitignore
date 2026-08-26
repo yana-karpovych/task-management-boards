@@ -5,7 +5,7 @@ node_modules/
 .env.*
 !.env.example
 dist/
-# build/
+build/
 coverage/
 *.tsbuildinfo
 logs/
@@ -15,5 +15,3 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
-# backend/prisma/*.db
-# backend/prisma/*.db-journal
