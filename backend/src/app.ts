@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
+import { boardsRouter } from './routes/boards.routes.js';
 
 export function createApp() {
   const app = express();
@@ -13,8 +14,10 @@ export function createApp() {
     res.status(200).json({ status: 'ok' });
   });
 
-  app.use(errorHandler);
+  app.use('/api/boards', boardsRouter);
+
   app.use(notFound);
+  app.use(errorHandler);
 
   return app;
 }
