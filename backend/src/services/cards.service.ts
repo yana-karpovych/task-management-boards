@@ -7,6 +7,11 @@ import type {
   MoveCardInput,
   UpdateCardInput,
 } from '../schemas/cards.schema.js';
+import {
+  insertIntoColumn,
+  reorderWithinColumn,
+  withContiguousPositions,
+} from '../utils/cardPositions.js';
 
 async function assertBoardExists(boardId: string) {
   const board = await prisma.board.findUnique({ where: { id: boardId } });
@@ -23,6 +28,22 @@ async function getCardOrThrow(id: string) {
   return card;
 }
 
+async function applyPositions(
+  tx: Prisma.TransactionClient,
+  cards: Array<{ id: string; position: number; column?: Column }>,
+  column?: Column,
+) {
+  for (const card of cards) {
+    await tx.card.update({
+      where: { id: card.id },
+      data: {
+        position: card.position,
+        ...(column ? { column } : {}),
+      },
+    });
+  }
+}
+
 async function normalizeColumn(
   tx: Prisma.TransactionClient,
   boardId: string,
@@ -33,15 +54,7 @@ async function normalizeColumn(
     orderBy: { position: 'asc' },
   });
 
-  for (let index = 0; index < cards.length; index += 1) {
-    const card = cards[index]!;
-    if (card.position !== index) {
-      await tx.card.update({
-        where: { id: card.id },
-        data: { position: index },
-      });
-    }
-  }
+  await applyPositions(tx, withContiguousPositions(cards));
 }
 
 export async function createCard(boardId: string, input: CreateCardInput) {
@@ -99,22 +112,10 @@ export async function moveCard(id: string, input: MoveCardInput) {
         orderBy: { position: 'asc' },
       });
 
-      const withoutCard = cards.filter((item) => item.id !== card.id);
-      const clampedPosition = Math.min(
-        Math.max(targetPosition, 0),
-        withoutCard.length,
+      const reordered = withContiguousPositions(
+        reorderWithinColumn(cards, card.id, targetPosition),
       );
-      withoutCard.splice(clampedPosition, 0, card);
-
-      for (let index = 0; index < withoutCard.length; index += 1) {
-        const item = withoutCard[index]!;
-        if (item.position !== index) {
-          await tx.card.update({
-            where: { id: item.id },
-            data: { position: index },
-          });
-        }
-      }
+      await applyPositions(tx, reordered);
     } else {
       await tx.card.update({
         where: { id: card.id },
@@ -135,25 +136,10 @@ export async function moveCard(id: string, input: MoveCardInput) {
         orderBy: { position: 'asc' },
       });
 
-      const clampedPosition = Math.min(
-        Math.max(targetPosition, 0),
-        targetCards.length,
+      const inserted = withContiguousPositions(
+        insertIntoColumn(targetCards, { ...card, column: targetColumn }, targetPosition),
       );
-      targetCards.splice(clampedPosition, 0, {
-        ...card,
-        column: targetColumn,
-      });
-
-      for (let index = 0; index < targetCards.length; index += 1) {
-        const item = targetCards[index]!;
-        await tx.card.update({
-          where: { id: item.id },
-          data: {
-            column: targetColumn,
-            position: index,
-          },
-        });
-      }
+      await applyPositions(tx, inserted, targetColumn);
     }
 
     const updated = await tx.card.findUnique({ where: { id: card.id } });
