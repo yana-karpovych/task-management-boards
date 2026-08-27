@@ -3,6 +3,7 @@ import cors from 'cors';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
 import { boardsRouter } from './routes/boards.routes.js';
+import { cardsRouter } from './routes/cards.routes.js';
 
 export function createApp() {
   const app = express();
@@ -15,6 +16,7 @@ export function createApp() {
   });
 
   app.use('/api/boards', boardsRouter);
+  app.use('/api/cards', cardsRouter);
 
   app.use(notFound);
   app.use(errorHandler);
