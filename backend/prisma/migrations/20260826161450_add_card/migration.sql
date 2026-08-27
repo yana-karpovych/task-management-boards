@@ -1,7 +1,5 @@
--- CreateEnum
 CREATE TYPE "Column" AS ENUM ('TODO', 'IN_PROGRESS', 'DONE');
 
--- CreateTable
 CREATE TABLE "Card" (
     "id" TEXT NOT NULL,
     "boardId" TEXT NOT NULL,
@@ -15,5 +13,4 @@ CREATE TABLE "Card" (
     CONSTRAINT "Card_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
 CREATE INDEX "Card_boardId_column_position_idx" ON "Card"("boardId", "column", "position");
