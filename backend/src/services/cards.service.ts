@@ -137,7 +137,11 @@ export async function moveCard(id: string, input: MoveCardInput) {
       });
 
       const inserted = withContiguousPositions(
-        insertIntoColumn(targetCards, { ...card, column: targetColumn }, targetPosition),
+        insertIntoColumn(
+          targetCards,
+          { ...card, column: targetColumn },
+          targetPosition,
+        ),
       );
       await applyPositions(tx, inserted, targetColumn);
     }

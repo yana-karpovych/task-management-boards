@@ -13,9 +13,12 @@ export const updateCardSchema = z
     title: z.string().trim().min(1, 'Title is required').max(200).optional(),
     description: z.string().trim().max(2000).optional(),
   })
-  .refine((data) => data.title !== undefined || data.description !== undefined, {
-    message: 'At least one field must be provided',
-  });
+  .refine(
+    (data) => data.title !== undefined || data.description !== undefined,
+    {
+      message: 'At least one field must be provided',
+    },
+  );
 
 export const moveCardSchema = z.object({
   column: columnSchema,

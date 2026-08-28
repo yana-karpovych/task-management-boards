@@ -106,9 +106,7 @@ describe('Cards API', () => {
       .post(`/api/boards/${boardId}/cards`)
       .send({ title: 'Remove' });
 
-    const deleted = await request(app).delete(
-      `/api/cards/${second.body.id}`,
-    );
+    const deleted = await request(app).delete(`/api/cards/${second.body.id}`);
     expect(deleted.status).toBe(204);
 
     const board = await request(app).get(`/api/boards/${boardId}`);
