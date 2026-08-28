@@ -45,6 +45,23 @@ describe('Boards API', () => {
     });
   });
 
+  it('updates a board name', async () => {
+    const created = await request(app)
+      .post('/api/boards')
+      .send({ name: 'Old name' });
+    createdBoardIds.push(created.body.id);
+
+    const res = await request(app)
+      .patch(`/api/boards/${created.body.id}`)
+      .send({ name: 'New name' });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({
+      id: created.body.id,
+      name: 'New name',
+    });
+  });
+
   it('rejects invalid board create payload', async () => {
     const res = await request(app).post('/api/boards').send({ name: '' });
 
@@ -57,6 +74,20 @@ describe('Boards API', () => {
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ message: 'Board not found' });
+  });
+
+  it('returns 404 when updating or deleting an unknown board', async () => {
+    const updated = await request(app)
+      .patch('/api/boards/missing-board-id')
+      .send({ name: 'New name' });
+
+    expect(updated.status).toBe(404);
+    expect(updated.body).toEqual({ message: 'Board not found' });
+
+    const deleted = await request(app).delete('/api/boards/missing-board-id');
+
+    expect(deleted.status).toBe(404);
+    expect(deleted.body).toEqual({ message: 'Board not found' });
   });
 
   it('deletes a board', async () => {

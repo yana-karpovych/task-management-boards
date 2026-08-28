@@ -6,6 +6,13 @@ import type {
   UpdateBoardInput,
 } from '../schemas/boards.schema.js';
 
+async function assertBoardExists(id: string) {
+  const board = await prisma.board.findUnique({ where: { id } });
+  if (!board) {
+    throw new AppError('Board not found', 404);
+  }
+}
+
 export async function createBoard(input: CreateBoardInput) {
   return prisma.board.create({
     data: {
@@ -33,20 +40,16 @@ export async function getBoardById(id: string) {
 }
 
 export async function updateBoard(id: string, input: UpdateBoardInput) {
-  try {
-    return await prisma.board.update({
-      where: { id },
-      data: { name: input.name },
-    });
-  } catch {
-    throw new AppError('Board not found', 404);
-  }
+  await assertBoardExists(id);
+
+  return prisma.board.update({
+    where: { id },
+    data: { name: input.name },
+  });
 }
 
 export async function deleteBoard(id: string) {
-  try {
-    await prisma.board.delete({ where: { id } });
-  } catch {
-    throw new AppError('Board not found', 404);
-  }
+  await assertBoardExists(id);
+
+  await prisma.board.delete({ where: { id } });
 }
