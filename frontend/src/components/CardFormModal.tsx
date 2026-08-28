@@ -91,7 +91,7 @@ export function CardFormModal({
 
           <div className={styles.actions}>
             <button type="submit" disabled={isSaving}>
-              {isSaving ? 'Saving…' : 'Save card'}
+              {isSaving ? 'Saving...' : 'Save card'}
             </button>
             <button type="button" onClick={onCancel} disabled={isSaving}>
               Cancel

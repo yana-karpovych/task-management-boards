@@ -67,7 +67,7 @@ export function HomePage() {
               className={formStyles.button}
               disabled={isCreating}
             >
-              {isCreating ? 'Creating…' : 'Create'}
+              {isCreating ? 'Creating...' : 'Create'}
             </button>
           </div>
           {createError && (

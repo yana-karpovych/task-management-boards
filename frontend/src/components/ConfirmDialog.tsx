@@ -30,7 +30,7 @@ export function ConfirmDialog({
 
         <div className={styles.actions}>
           <button type="button" onClick={onConfirm} disabled={isBusy}>
-            {isBusy ? 'Working…' : confirmLabel}
+            {isBusy ? 'Working...' : confirmLabel}
           </button>
           <button type="button" onClick={onCancel} disabled={isBusy}>
             Cancel

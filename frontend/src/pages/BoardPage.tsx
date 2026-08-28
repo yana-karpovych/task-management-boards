@@ -93,7 +93,7 @@ export function BoardPage() {
   if (isLoading) {
     return (
       <main className={styles.state}>
-        <p className={styles.muted}>Loading board…</p>
+        <p className={styles.muted}>Loading board...</p>
       </main>
     );
   }

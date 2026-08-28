@@ -69,7 +69,7 @@ export function BoardHeader({
             onChange={(event) => setDraftName(event.target.value)}
           />
           <button type="submit" disabled={isRenaming}>
-            {isRenaming ? 'Saving…' : 'Save name'}
+            {isRenaming ? 'Saving...' : 'Save name'}
           </button>
           <button
             type="button"

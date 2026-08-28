@@ -1,14 +1,14 @@
 # Task Management Boards
 
 Anonymous Kanban-style task boards. Anyone can create a board, receive its unique
-ID and share that ID to give access — there is no registration or login. Each
+ID and share that ID to give access. There is no registration or login. Each
 board has three fixed columns (To Do, In Progress, Done) and cards that can be
 created, edited, deleted, reordered and dragged between columns.
 
 ## Live demo
 
-- Frontend: 
-- API: 
+- Frontend: not deployed yet
+- API: not deployed yet
 
 ## Stack
 
@@ -44,14 +44,15 @@ Then open <http://localhost:5173>.
 | API      | <http://localhost:4000/api>                    |
 | Postgres | `postgresql://postgres:postgres@localhost:5432/task_boards` |
 
-To stop the stack, optionally removing the database volume:
+To stop the stack, use `docker compose down`. Add `-v` if you also want to drop
+the database volume and start from an empty database next time.
 
 ```bash
-docker compose down        
-docker compose down -v    
+docker compose down
+docker compose down -v
 ```
 
-Ports 5173, 4000 and 5432 must be free — stop any local dev servers first.
+Ports 5173, 4000 and 5432 must be free, so stop any local dev servers first.
 
 ## Local development
 
