@@ -2,21 +2,25 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { routes } from '../app/router';
-import { store } from '../app/store';
+import { setupStore } from '../app/store';
 
 function renderHome() {
   const router = createMemoryRouter(routes, { initialEntries: ['/'] });
 
   render(
-    <Provider store={store}>
+    <Provider store={setupStore()}>
       <RouterProvider router={router} />
     </Provider>,
   );
 
   return router;
 }
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('HomePage', () => {
   it('renders create and open controls', () => {
@@ -37,6 +41,35 @@ describe('HomePage', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /board name is required/i,
     );
+  });
+
+  it('shows the new board id instead of leaving the page', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              id: 'new-board-id',
+              name: 'Planning',
+              createdAt: new Date().toISOString(),
+            }),
+            { status: 201 },
+          ),
+      ),
+    );
+
+    const user = userEvent.setup();
+    const router = renderHome();
+
+    await user.type(screen.getByLabelText(/board name/i), 'Planning');
+    await user.click(screen.getByRole('button', { name: /create/i }));
+
+    expect(await screen.findByText('new-board-id')).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/');
+    expect(
+      screen.getByRole('link', { name: /open board/i }),
+    ).toBeInTheDocument();
   });
 
   it('navigates to the board page when opening by id', async () => {

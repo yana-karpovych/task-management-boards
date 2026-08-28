@@ -126,6 +126,42 @@ describe('BoardPage', () => {
     );
   });
 
+  it('asks for confirmation before deleting a card', async () => {
+    const fetchMock = vi.fn(
+      async () => new Response(JSON.stringify(board), { status: 200 }),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    const user = userEvent.setup();
+    renderBoardPage();
+
+    await user.click(
+      await screen.findByRole('button', { name: /delete card write docs/i }),
+    );
+
+    const dialog = screen.getByRole('dialog', { name: /delete card/i });
+    expect(dialog).toHaveTextContent(/write docs/i);
+
+    await user.click(within(dialog).getByRole('button', { name: /cancel/i }));
+
+    expect(
+      screen.queryByRole('dialog', { name: /delete card/i }),
+    ).not.toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    await user.click(
+      screen.getByRole('button', { name: /delete card write docs/i }),
+    );
+    await user.click(
+      within(screen.getByRole('dialog', { name: /delete card/i })).getByRole(
+        'button',
+        { name: /delete card/i },
+      ),
+    );
+
+    expect(fetchMock.mock.calls.length).toBeGreaterThan(1);
+  });
+
   it('shows a clear error for an unknown board id', async () => {
     vi.stubGlobal(
       'fetch',
