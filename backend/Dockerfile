@@ -17,8 +17,6 @@ FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 
-# The prisma CLI is a runtime dependency because the container applies
-# migrations on start, so production install keeps it available.
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 

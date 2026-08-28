@@ -109,10 +109,17 @@ cd frontend && npm run test
 ```
 
 Backend tests run against `TEST_DATABASE_URL`, so they never touch development
-data. Create the test database once with:
+data. Create the test database once and apply migrations to it:
 
 ```bash
 createdb task_boards_test
+# or, when Postgres runs in Docker:
+docker exec task-boards-postgres createdb -U postgres task_boards_test
+```
+
+```bash
+cd backend
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/task_boards_test?schema=public npx prisma migrate deploy
 ```
 
 ## API
