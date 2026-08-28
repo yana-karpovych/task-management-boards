@@ -29,11 +29,11 @@ export function ConfirmDialog({
         <p className={styles.message}>{message}</p>
 
         <div className={styles.actions}>
-          <button type="button" onClick={onCancel} disabled={isBusy}>
-            Cancel
-          </button>
           <button type="button" onClick={onConfirm} disabled={isBusy}>
             {isBusy ? 'Working…' : confirmLabel}
+          </button>
+          <button type="button" onClick={onCancel} disabled={isBusy}>
+            Cancel
           </button>
         </div>
       </div>

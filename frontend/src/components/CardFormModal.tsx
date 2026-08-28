@@ -90,11 +90,11 @@ export function CardFormModal({
           )}
 
           <div className={styles.actions}>
-            <button type="button" onClick={onCancel} disabled={isSaving}>
-              Cancel
-            </button>
             <button type="submit" disabled={isSaving}>
               {isSaving ? 'Saving…' : 'Save card'}
+            </button>
+            <button type="button" onClick={onCancel} disabled={isSaving}>
+              Cancel
             </button>
           </div>
         </form>
