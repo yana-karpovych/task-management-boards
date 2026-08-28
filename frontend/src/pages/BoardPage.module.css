@@ -1,0 +1,44 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+}
+
+.state {
+  max-width: 520px;
+  margin: 48px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+.back {
+  align-self: flex-start;
+  font-size: 0.9rem;
+}

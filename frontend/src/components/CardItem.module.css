@@ -1,0 +1,48 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.card:hover {
+  border-color: #999;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.dragging {
+  opacity: 0.4;
+}
+
+.overlay {
+  pointer-events: none;
+  border-color: #999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: grabbing;
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 6px;
+}

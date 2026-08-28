@@ -1,0 +1,87 @@
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 24px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.idField {
+  text-align: right;
+}
+
+.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.idValue {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.boardId {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9rem;
+}
+
+.copied {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.form {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  min-width: 220px;
+}
+
+.error {
+  grid-column: 1 / -1;
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+  .header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .idField {
+    text-align: left;
+  }
+
+  .idValue {
+    justify-content: flex-start;
+  }
+}
