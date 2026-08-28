@@ -7,8 +7,12 @@ created, edited, deleted, reordered and dragged between columns.
 
 ## Live demo
 
-- Frontend: not deployed yet
-- API: not deployed yet
+- Frontend: <https://task-management-boards-kohl.vercel.app>
+- API: <https://task-management-boards-vyus.onrender.com/api>
+
+The API runs on a free Render plan, which sleeps after a period of inactivity.
+The first request after a pause can take up to a minute while the service wakes
+up, and later requests are fast again.
 
 ## Stack
 
@@ -76,7 +80,7 @@ Environment variables (`backend/.env`):
 | `PORT`              | API port, defaults to 4000.                                    |
 | `DATABASE_URL`      | PostgreSQL connection string.                                  |
 | `TEST_DATABASE_URL` | Separate database used by the API tests.                       |
-| `CORS_ORIGIN`       | Allowed origin in production. Leave empty to allow any origin. |
+| `CORS_ORIGIN`       | Restricts the API to a single origin. Unset by default, which allows any origin. |
 
 ### Frontend
 
